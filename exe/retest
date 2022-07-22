@@ -2,6 +2,8 @@
 
 require 'retest'
 
+trap(:INT) { puts "Goodbye"; exit }
+
 $stdout.sync = true
 
 options = Retest::Options.new(ARGV)
@@ -33,7 +35,7 @@ end
 # Main action
 
 $stdout.puts "Launching Retest..."
-Listen.to('.', only: options.extension, relative: true) do |modified, added, removed|
+Listen.to('.', only: options.extension, relative: true, force_polling: true) do |modified, added, removed|
   begin
     program.run(modified, added, removed)
   rescue => e
